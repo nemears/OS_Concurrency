@@ -1,0 +1,170 @@
+Phase 1:
+
+  A simple way to model this intersection would be with five queues storing
+thread indices two locks and two conditional variables. Four of these queues
+hold the four directions of threads and the last one controls the threads up
+next in their lane to go through the intersection. If a thread is in a
+direction queue it waits for the condition that the intersection queue has less
+than four memebers and that the thread is at the front of its queue, then it
+enqueues on the intersection queue and releases the lock. Once a thread is on
+the intersection queue it waits on a condition that it is at the head of the
+intersection queue. Then the thread goes through the intersection, and signals
+both conditions allowing the threads to progress and releases the second lock.
+  This approach is suboptimal because only one thread can go through the
+intersection at a time even though there may be the ability for other threads
+to through the intersection at the same time.
+
+Phase 2:
+
+  When Massachusetts threads are sent through the intersection they will
+deadlock in situations such as,
+  1.) Threads from all four directions are not turning right and move to the
+  quadrant in front of them before any of them had moved a second tile.
+  2.)
+
+My Solution:
+  1.) No two threads cannot be in the same quadrant at once because each
+  quadrant is defined as a pthread_mutex_t lock that threads have to grab if
+  they are going through those quadrants
+  2.) The threads wait at the intersection and do not let other threads pass
+  them in the intersection because there are four pthread_cond_t variables
+  defined for each direction and they wait until the last thread waiting on
+  that conditional variable has made it through the intersection.
+  3.) My approach improves traffic flow because two cars can go through the
+  intersection at once. This is achieved through an ordered acquisition of the
+  locks. No matter what order the thread travels through the intersection the
+  locks are always gathered in the same order so no thread has a lock another
+  thread needs. This allows multiple threads to acquire the locks for the
+  quadrants they want and proceed through the intersection.
+  4.) The threads print out their indices cardinality direction and new
+  cardinality after they get them randomly assigned. Then when they acquire all
+  of the locks they need to go through the intersection they print the same
+  info. Then after they drop all the locks they say it again.
+  5.)
+
+Output if all threads are set to turn right:
+Running
+Thread 0 approaching from north going right to west
+Thread 1 approaching from north going right to west
+Thread 2 approaching from north going right to west
+Thread 4 approaching from east going right to north
+Thread 3 approaching from north going right to west
+Thread 5 approaching from north going right to west
+Thread 6 approaching from west going right to south
+Thread 7 approaching from north going right to west
+Thread 8 approaching from east going right to north
+Thread 9 approaching from north going right to west
+Thread 10 approaching from east going right to north
+Thread 11 approaching from south going right to east
+Thread 12 approaching from east going right to north
+Thread 13 approaching from west going right to south
+Thread 14 approaching from north going right to west
+Thread 15 approaching from south going right to east
+Thread 16 approaching from north going right to west
+Thread 17 approaching from west going right to south
+Thread 18 approaching from south going right to east
+Thread 19 approaching from east going right to north
+Thread 1 entering from north going right to west
+Thread 4 entering from east going right to north
+Thread 6 entering from west going right to south
+Thread 11 entering from south going right to east
+Thread 4 leaving from east going right to north
+Thread 1 leaving from north going right to west
+Thread 2 entering from north going right to west
+Thread 6 leaving from west going right to south
+Thread 8 entering from east going right to north
+Thread 11 leaving from south going right to east
+Thread 13 entering from west going right to south
+Thread 15 entering from south going right to east
+Thread 2 leaving from north going right to west
+Thread 0 entering from north going right to west
+Thread 8 leaving from east going right to north
+Thread 10 entering from east going right to north
+Thread 13 leaving from west going right to south
+Thread 15 leaving from south going right to east
+Thread 17 entering from west going right to south
+Thread 18 entering from south going right to east
+Thread 0 leaving from north going right to west
+Thread 3 entering from north going right to west
+Thread 10 leaving from east going right to north
+Thread 12 entering from east going right to north
+Thread 17 leaving from west going right to south
+Thread 18 leaving from south going right to east
+Thread 3 leaving from north going right to west
+Thread 5 entering from north going right to west
+Thread 12 leaving from east going right to north
+Thread 19 entering from east going right to north
+Thread 5 leaving from north going right to west
+Thread 7 entering from north going right to west
+Thread 19 leaving from east going right to north
+Thread 7 leaving from north going right to west
+Thread 9 entering from north going right to west
+Thread 9 leaving from north going right to west
+Thread 14 entering from north going right to west
+Thread 14 leaving from north going right to west
+Thread 16 entering from north going right to west
+Thread 16 leaving from north going right to west
+
+Normal output:
+
+Running
+Thread 0 approaching from east going right to north
+Thread 1 approaching from south going straight to north
+Thread 2 approaching from north going left to east
+Thread 4 approaching from west going left to north
+Thread 1 entering from south going straight to north
+Thread 3 approaching from north going straight to south
+Thread 5 approaching from south going straight to north
+Thread 6 approaching from north going left to east
+Thread 7 approaching from west going straight to east
+Thread 8 approaching from south going left to west
+Thread 10 approaching from north going straight to south
+Thread 9 approaching from north going straight to south
+Thread 11 approaching from south going left to west
+Thread 12 approaching from north going left to east
+Thread 13 approaching from north going straight to south
+Thread 14 approaching from south going straight to north
+Thread 15 approaching from south going right to east
+Thread 16 approaching from north going right to west
+Thread 17 approaching from east going straight to west
+Thread 18 approaching from south going left to west
+Thread 19 approaching from east going left to south
+Thread 1 leaving from south going straight to north
+Thread 2 entering from north going left to east
+Thread 2 leaving from north going left to east
+Thread 5 entering from south going straight to north
+Thread 3 entering from north going straight to south
+Thread 3 leaving from north going straight to south
+Thread 5 leaving from south going straight to north
+Thread 6 entering from north going left to east
+Thread 6 leaving from north going left to east
+Thread 4 entering from west going left to north
+Thread 4 leaving from west going left to north
+Thread 7 entering from west going straight to east
+Thread 0 entering from east going right to north
+Thread 0 leaving from east going right to north
+Thread 7 leaving from west going straight to east
+Thread 8 entering from south going left to west
+Thread 8 leaving from south going left to west
+Thread 9 entering from north going straight to south
+Thread 9 leaving from north going straight to south
+Thread 10 entering from north going straight to south
+Thread 10 leaving from north going straight to south
+Thread 11 entering from south going left to west
+Thread 11 leaving from south going left to west
+Thread 14 entering from south going straight to north
+Thread 14 leaving from south going straight to north
+Thread 15 entering from south going right to east
+Thread 17 entering from east going straight to west
+Thread 15 leaving from south going right to east
+Thread 17 leaving from east going straight to west
+Thread 12 entering from north going left to east
+Thread 12 leaving from north going left to east
+Thread 13 entering from north going straight to south
+Thread 13 leaving from north going straight to south
+Thread 16 entering from north going right to west
+Thread 16 leaving from north going right to west
+Thread 18 entering from south going left to west
+Thread 18 leaving from south going left to west
+Thread 19 entering from east going left to south
+Thread 19 leaving from east going left to south

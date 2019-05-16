@@ -1,0 +1,349 @@
+Explanation:
+
+  My ninjas program maximizes profit while keeping the fairness between Pirates
+and ninjas through the condition that i reset the semaphores. The condition is,
+on line 115 in the statement:
+
+int change = them->muCt*(*twait) + info->muCt*indept > 25 || *twait >= *mywait;
+
+  This maximizes profit by checking the amount of the other threads waiting and
+also checking the amount of the current threads in the department and
+multiplying them by their mean changing times to see if it is less than 25 so as to try
+to serve them before losing a profit. If the other queue is longer than the
+current type threads queue it will also try to switch, so as to preserve
+fairness. Also the program will always try to fill the department unless there
+aren't enough of one thread waiting. This can be seen as the program lets Four
+threads in before dequeuing that type and switching to the other unless there
+are less than four of the other kind waiting. Also no thread waits for more than
+13 seconds.
+
+Output from ./ninjas 4 10 10 3 3 3 3:
+Simulation 1
+
+
+ ############### Simulation Parameters ##################
+staff size: 4
+pirates: 10
+ninjas: 10
+pirate adventure time: 3.000000
+ninja adventure time: 3.000000
+pirate change time: 3.000000
+ninja change time: 3.000000
+Running!
+semaphore inital values, psem: 0, nsem: 4
+Count 0
+Count 1
+Count 2
+Count 3
+Count 4
+Count 0
+Count 1
+Count 2
+Count 3
+Count 4
+Count 5
+Count 5
+Count 6
+Count 7
+Count 8
+Count 9
+Count 6
+Count 7
+Count 8
+Count 9
+I am a ninja!
+Currently waiting: Pirates 3, Ninjas 0, in department: 1 ninja
+Wait for 3.753186 secs
+I am a ninja!
+Currently waiting: Pirates 3, Ninjas 0, in department: 2 ninja
+Wait for 3.679926 secs
+I am a ninja!
+Currently waiting: Pirates 3, Ninjas 0, in department: 3 ninja
+Wait for 3.128735 secs
+I am a ninja!
+Currently waiting: Pirates 4, Ninjas 0, in department: 4 ninja
+Wait for 1.167832 secs
+leaving...
+Currently waiting: Pirates 7, Ninjas 5, in department: 4 ninja
+leaving...
+Currently waiting: Pirates 9, Ninjas 6, in department: 4 ninja
+leaving...
+Currently waiting: Pirates 9, Ninjas 6, in department: 4 ninja
+leaving...
+Currently waiting: Pirates 9, Ninjas 6, in department: 0 ninja
+I am a pirate!
+Currently waiting: Pirates 8, Ninjas 6, in department: 1 pirate
+Wait for 2.645896 secs
+I am a pirate!
+Currently waiting: Pirates 7, Ninjas 6, in department: 2 pirate
+Wait for 1.979878 secs
+I am a pirate!
+Currently waiting: Pirates 6, Ninjas 6, in department: 3 pirate
+Wait for 2.455136 secs
+I am a pirate!
+Currently waiting: Pirates 5, Ninjas 6, in department: 4 pirate
+Wait for 3.913250 secs
+leaving...
+Currently waiting: Pirates 5, Ninjas 6, in department: 4 pirate
+leaving...
+Currently waiting: Pirates 5, Ninjas 6, in department: 4 pirate
+leaving...
+Currently waiting: Pirates 5, Ninjas 6, in department: 4 pirate
+going agian hehe!
+leaving...
+Currently waiting: Pirates 5, Ninjas 6, in department: 0 pirate
+going agian hehe!
+I am a ninja!
+Currently waiting: Pirates 5, Ninjas 5, in department: 1 ninja
+Wait for 3.326450 secs
+I am a ninja!
+Currently waiting: Pirates 5, Ninjas 4, in department: 2 ninja
+Wait for 1.876339 secs
+I am a ninja!
+Currently waiting: Pirates 5, Ninjas 3, in department: 3 ninja
+Wait for 2.009970 secs
+I am a ninja!
+Currently waiting: Pirates 5, Ninjas 2, in department: 4 ninja
+Wait for 3.538692 secs
+leaving...
+Currently waiting: Pirates 5, Ninjas 2, in department: 4 ninja
+leaving...
+Currently waiting: Pirates 7, Ninjas 2, in department: 4 ninja
+leaving...
+Currently waiting: Pirates 7, Ninjas 2, in department: 4 ninja
+leaving...
+Currently waiting: Pirates 7, Ninjas 2, in department: 0 ninja
+I am a pirate!
+Currently waiting: Pirates 6, Ninjas 2, in department: 1 pirate
+Wait for 4.420041 secs
+I am a pirate!
+Currently waiting: Pirates 5, Ninjas 2, in department: 2 pirate
+Wait for 3.211692 secs
+I am a pirate!
+Currently waiting: Pirates 4, Ninjas 2, in department: 3 pirate
+Wait for 3.250536 secs
+I am a pirate!
+Currently waiting: Pirates 3, Ninjas 2, in department: 4 pirate
+Wait for 2.224531 secs
+leaving...
+Currently waiting: Pirates 4, Ninjas 2, in department: 3 pirate
+going agian hehe!
+I am a pirate!
+Currently waiting: Pirates 3, Ninjas 2, in department: 4 pirate
+Wait for 1.449032 secs
+leaving...
+Currently waiting: Pirates 3, Ninjas 2, in department: 3 pirate
+leaving...
+Currently waiting: Pirates 3, Ninjas 2, in department: 2 pirate
+going agian hehe!
+I am a pirate!
+Currently waiting: Pirates 2, Ninjas 2, in department: 3 pirate
+Wait for 2.698639 secs
+I am a pirate!
+Currently waiting: Pirates 1, Ninjas 2, in department: 4 pirate
+Wait for 2.444309 secs
+leaving...
+Currently waiting: Pirates 1, Ninjas 2, in department: 4 pirate
+leaving...
+Currently waiting: Pirates 1, Ninjas 2, in department: 4 pirate
+leaving...
+Currently waiting: Pirates 1, Ninjas 2, in department: 4 pirate
+leaving...
+Currently waiting: Pirates 1, Ninjas 2, in department: 0 pirate
+I am a ninja!
+Currently waiting: Pirates 1, Ninjas 1, in department: 1 ninja
+Wait for 1.295837 secs
+I am a ninja!
+Currently waiting: Pirates 1, Ninjas 0, in department: 2 ninja
+Wait for 3.778056 secs
+leaving...
+Currently waiting: Pirates 2, Ninjas 0, in department: 2 ninja
+leaving...
+Currently waiting: Pirates 2, Ninjas 0, in department: 0 ninja
+I am a pirate!
+Currently waiting: Pirates 1, Ninjas 0, in department: 1 pirate
+Wait for 3.352890 secs
+I am a pirate!
+Currently waiting: Pirates 0, Ninjas 0, in department: 2 pirate
+Wait for 3.574498 secs
+I am a pirate!
+Currently waiting: Pirates 0, Ninjas 0, in department: 3 pirate
+Wait for 2.831935 secs
+leaving...
+Currently waiting: Pirates 0, Ninjas 0, in department: 3 pirate
+leaving...
+Currently waiting: Pirates 0, Ninjas 0, in department: 3 pirate
+going agian hehe!
+leaving...
+Currently waiting: Pirates 0, Ninjas 0, in department: 0 pirate
+I am a pirate!
+Currently waiting: Pirates 0, Ninjas 0, in department: 1 pirate
+Wait for 4.331731 secs
+leaving...
+Currently waiting: Pirates 0, Ninjas 0, in department: 0 pirate
+__Pirate 0__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 4
+    Time in department: 2
+  Total cost in department visits 2
+__Pirate 1__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 7
+    Time in department: 4
+  Total cost in department visits 4
+__Pirate 2__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 9
+    Time in department: 1
+  Total cost in department visits 1
+__Pirate 3__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 5
+    Time in department: 2
+  Total cost in department visits 2
+__Pirate 4__
+Number of visits: 2
+  Visit 0,
+    Time waiting: 4
+    Time in department: 2
+  Visit 1,
+    Time waiting: 5
+    Time in department: 2
+  Total cost in department visits 4
+__Pirate 5__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 3
+    Time in department: 1
+  Total cost in department visits 1
+__Pirate 6__
+Number of visits: 3
+  Visit 0,
+    Time waiting: 8
+    Time in department: 3
+  Visit 1,
+    Time waiting: 2
+    Time in department: 3
+  Visit 2,
+    Time waiting: 0
+    Time in department: 4
+  Total cost in department visits 10
+__Pirate 7__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 9
+    Time in department: 3
+  Total cost in department visits 3
+__Pirate 8__
+Number of visits: 2
+  Visit 0,
+    Time waiting: 5
+    Time in department: 3
+  Visit 1,
+    Time waiting: 7
+    Time in department: 3
+  Total cost in department visits 6
+__Pirate 9__
+Number of visits: 2
+  Visit 0,
+    Time waiting: 9
+    Time in department: 2
+  Visit 1,
+    Time waiting: 0
+    Time in department: 2
+  Total cost in department visits 4
+Total pirate bill: 37 dollars
+
+__Ninja 0__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 5
+    Time in department: 1
+  Total cost in deparment visits 1
+
+__Ninja 1__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 0
+    Time in department: 3
+  Total cost in deparment visits 3
+
+__Ninja 2__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 12
+    Time in department: 1
+  Total cost in deparment visits 1
+
+__Ninja 3__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 5
+    Time in department: 3
+  Total cost in deparment visits 3
+
+__Ninja 4__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 0
+    Time in department: 3
+  Total cost in deparment visits 3
+
+__Ninja 5__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 0
+    Time in department: 3
+  Total cost in deparment visits 3
+
+__Ninja 6__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 5
+    Time in department: 2
+  Total cost in deparment visits 2
+
+__Ninja 7__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 0
+    Time in department: 1
+  Total cost in deparment visits 1
+
+__Ninja 8__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 5
+    Time in department: 3
+  Total cost in deparment visits 3
+
+__Ninja 9__
+Number of visits: 1
+  Visit 0,
+    Time waiting: 13
+    Time in department: 3
+  Total cost in deparment visits 3
+
+Total ninja bill: 23 dollars
+
+__Costume Team 0__
+  Time busy: 20
+  Time idle: 9
+__Costume Team 1__
+  Time busy: 16
+  Time idle: 6
+__Costume Team 2__
+  Time busy: 12
+  Time idle: 9
+__Costume Team 3__
+  Time busy: 12
+  Time idle: 4
+
+Average time waiting: 4
+Gross revenue: 60
+Gold per visit: 2
+Total revenue: 40
